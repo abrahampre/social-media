@@ -1,12 +1,15 @@
-const {Toughts, User} = require('../models');
+const {Tought, User} = require('../models');
 
 const toughtsController = {
     // add tought 
     addTought({params, body}, res){
         console.log(body);
         Tought.create(body)
-        .then(({_id})=>{
-            return User.findOneAndUpdate({_id: params.userId},{$push: {comments:_id}},{new:true});
+        .then(({ _id })=>{
+            return User.findOneAndUpdate(
+                { _id: params.userId},
+                { $push: { toughts: _id} },
+                { new: true} );
         })
         .then (dbUserData =>{
             if(!dbUserData){

@@ -22,8 +22,8 @@ const ToughtSchema = new Schema ({
     // }
 
 
-})
+}) 
 
 const Tought = model('Tought', ToughtSchema);
 
-module.export = Tought;
+module.exports = Tought;

@@ -10,6 +10,7 @@ const userController = {
             console.log(err);
             res.status(400).json(err);
         });
+        console.log(userId);
     },
 
     // get one pizza by id 
@@ -44,7 +45,7 @@ const userController = {
                 res.status(400).json({message:'no user found with this id!'});
                 return;
             }
-            res.json(dbUserData);d
+            res.json(dbUserData);
         })
     },
 

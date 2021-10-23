@@ -18,14 +18,14 @@ const UserSchema = new Schema ({
     toughts:[
         {
             type:Schema.Types.ObjectId,
-            ref:'Toughts'
+            ref:'Tought'
         }
     ]
 
 },
 {
     toJSON:{
-        virtuals: true,
+        virtuals: true
     },
     id: false
 });
