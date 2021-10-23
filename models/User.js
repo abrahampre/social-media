@@ -14,10 +14,27 @@ const UserSchema = new Schema ({
         unique: true,
         required: true
         //add valid email validation
-    }
+    },
+    toughts:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:'Toughts'
+        }
+    ]
 
+},
+{
+    toJSON:{
+        virtuals: true,
+    },
+    id: false
+});
+
+//get total count of toughts
+UserSchema.virtual('toughtsCount').get(function(){
+    return this.toughts.length;
 })
 
 const User = model('User', UserSchema);
 
-module.export = User;
+module.exports = User;
