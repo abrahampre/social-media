@@ -17,7 +17,7 @@ const UserSchema = new Schema ({
     },
     toughts:[
         {
-            type:Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref:'Tought'
         }
     ]
@@ -25,7 +25,8 @@ const UserSchema = new Schema ({
 },
 {
     toJSON:{
-        virtuals: true
+        virtuals: true,
+        getters: true
     },
     id: false
 });

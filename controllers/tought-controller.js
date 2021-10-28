@@ -2,22 +2,30 @@ const {Tought, User} = require('../models');
 
 const toughtsController = {
     // add tought 
-    addTought({params, body}, res){
+    // working with (req,res)
+    createTought({ params, body }, res){
+      console.log(params.userId)
         console.log(body);
         Tought.create(body)
-        .then(({ _id })=>{
+          .then(dbToughtData => {
+            // res.json(dbToughtData);
             return User.findOneAndUpdate(
-                { _id: params.userId},
-                { $push: { toughts: _id} },
-                { new: true} );
-        })
-        .then (dbUserData =>{
-            if(!dbUserData){
-                res.status(404).json({message: 'No user found with this id'});
+              {_id: params.userId} ,
+              { $push: { toughts: dbToughtData._id } },
+              { new: true }
+            );
+
+          })
+          .then(dbUserData => {
+            if (!dbUserData) {
+              res.status(404).json({ message: 'No Toughts found with this id!' });
+              return;
             }
-            res.json(dbUserData)
-        })
-        .catch(err=> res.json(err))
+            res.json(dbUserData);
+          })
+          .catch(err =>{
+            res.json(err);
+          } )
     },
     removeTought({params}, res){
         Tought.findOneAndDelete({_id: params.toughtId})
@@ -34,8 +42,19 @@ const toughtsController = {
             }
             res.json(dbUserData);
         })
-        .catch(err => res.json(err));
+        .catch(err=>{
+          console.log(err);
+          res.status(400).json(err)
+        })
     },
+    getToughts(req,res){
+      Tought.find({})
+      .then(dbToughtData => res.json(dbToughtData))
+      .catch(err=>{
+        console.log(err);
+        res.status(400).json(err)
+      })
+    }
     
 };
 
