@@ -71,9 +71,11 @@ const toughtsController = {
 
 
     addReaction({params, body}, res){
+      console.log(params)
+      console.log(body)
       Tought.findOneAndUpdate(
-        {_id: params},
-        { $push: {reactions: body}},
+        {_id: params.toughtId},
+        { $addToSet: {reactions: body}},
         { new:true }
       )
       .then(dbToughtData =>{

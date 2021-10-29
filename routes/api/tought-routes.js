@@ -17,7 +17,10 @@ router.route('/:userId')
 router
 .route('/:toughtId')
 .put(updateTought)
-.put(addReaction);
+
+router
+.route('/:toughtId/reaction')
+.put(addReaction).delete(removeReaction);
 
 
 
