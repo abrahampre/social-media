@@ -1,3 +1,4 @@
+
 const router = require('express').Router();
 const { 
     createTought,
@@ -19,8 +20,12 @@ router
 .put(updateTought)
 
 router
-.route('/:toughtId/reaction')
-.put(addReaction).delete(removeReaction);
+.route('reaction/:toughtId')
+.put(addReaction)
+
+router
+.route('/:toughtId/:reactionId')
+.delete(removeReaction);
 
 
 
