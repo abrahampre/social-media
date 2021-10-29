@@ -54,8 +54,48 @@ const toughtsController = {
         console.log(err);
         res.status(400).json(err)
       })
+    },
+    ////////update tought
+    updateTought({params,body},res){
+      Tought.findOneAndUpdate( params.toughtId, body,{new: true})
+      // console.log('body')
+      // console.log(body)
+      .then(dbToughtData =>{
+            if(!dbToughtData){
+                res.status(400).json({message:'no user found with this id!'});
+                return;
+            }
+      res.json(dbToughtData);
+     })
+    },
+
+
+    addReaction({params, body}, res){
+      Tought.findOneAndUpdate(
+        {_id: params},
+        { $push: {reactions: body}},
+        { new:true }
+      )
+      .then(dbToughtData =>{
+        if(!dbToughtData){
+          res.status(404).json({message: 'No tought Found with this id!'});
+          return;
+        }
+        res.json(dbToughtData);
+      })
+      .catch(err =>  res.json(err));
+    },
+
+    removeReaction({params},res){
+      console.log(params);
+      Tought.findOneAndUpdate(
+        {_id: params.toughtId},
+        {$pull: { reactions:{reactionId: params.reactionId}}},
+        { new: true }
+      )
+      .then(dbToughtData => res.json(dbToughtData))
+      .catch(err=> res.json(err))
     }
-    
 };
 
 module.exports = toughtsController

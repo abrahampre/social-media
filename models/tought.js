@@ -1,4 +1,29 @@
-const {Schema, model } = require ('mongoose');
+const {Schema, model, Types } = require ('mongoose');
+
+const ReactionSchema = new Schema ({
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId()
+    },
+    reactionBody: {
+        type: String
+    },
+    writtenBy:{
+        type: String
+    },
+    createdAt:{
+        type:Date,
+        default: Date.now
+        // get: createdAtVal
+    }
+},
+{
+    toJSON:{
+        getters: true
+    },
+    id:false
+ }
+);
 
 const ToughtSchema = new Schema ({
 
@@ -16,14 +41,20 @@ const ToughtSchema = new Schema ({
     userNameBy:{
         type: String,
         required: true
-    }
-    // , reactions:{
+    },
+    reactions:[ReactionSchema]
+},
+{
+    toJSON:{
+        virtuals:true,
+        getters:true
+    },
+    id:false
+}
+) 
 
-    // }
-
-
-}) 
-
+ToughtSchema.virtual('reactionCount').get(function(){
+    return this.reactions.length;
+});
 const Tought = model('Tought', ToughtSchema);
-
 module.exports = Tought;
